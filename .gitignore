@@ -5,3 +5,7 @@ log/
 *.swp
 
 __pycache__/
+
+# Dependencies (except COLCON_IGNORE)
+deps/*
+!deps/COLCON_IGNORE
