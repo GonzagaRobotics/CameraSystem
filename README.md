@@ -18,11 +18,11 @@ Currently has basic live video streaming capabilities to the Control System.
 
 ## Building
 
-The signaling server has its own dependencies that need to be installed.
+Each part has its own npm dependencies that need to be installed.
 
 ```bash
 # Run this in the root directory of the repository
-(cd src/signaling/ && npm install)
+(cd src/signaling/ && npm install && cd ../streamer/ && npm install)
 ```
 
 ## Running
@@ -31,23 +31,15 @@ The signaling server has its own dependencies that need to be installed.
 
 **Make sure port 8080 is open.**
 
-First, start the signaling server.
+Use the shell script to start the system. Make sure it has execute permissions.
 
 ```bash
 # Run this in the root directory of the repository
-node src/signaling/
+./start.sh $CHROMIUM_PATH$
+
+# Example using snap on linux
+./start.sh /snap/bin/chromium
 ```
-
-Second, start the camera system. Do this in a different terminal.
-
-**Ensure that there are no Chromium processes already running.**
-
-```bash
-# Run this in the root directory of the repository
-chromium --use-fake-ui-for-media-stream src/streamer/index.html
-```
-
-If you look at the output of the signaling server, you should see `Connected: rover` appear.
 
 ## Usage
 
