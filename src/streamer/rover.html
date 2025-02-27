@@ -12,10 +12,17 @@
             let pc = new RTCPeerConnection({ iceServers: [] });
             let makingOffer = false;
 
+            navigator.mediaDevices.enumerateDevices().then((devices) => {
+                devices.forEach((device) =>
+                    console.log(JSON.stringify(device))
+                );
+            });
+
             function addMedia() {
                 navigator.mediaDevices
                     .getUserMedia({
-                        video: { width: 640, height: 360 },
+                        // video: { width: 640, height: 360 },
+                        video: true,
                         audio: false,
                     })
                     .then((stream) => {
@@ -24,19 +31,22 @@
                         });
 
                         // Only allow av1 codec
-                        const transceiver = pc.getTransceivers()[0];
-                        transceiver.direction = "sendonly";
-                        transceiver.setCodecPreferences([
-                            {
-                                mimeType: "video/AV1",
-                                clockRate: 90000,
-                                sdpFmtpLine: "level-idx=5;profile=0;tier=0",
-                            },
-                        ]);
+                        // const transceiver = pc.getTransceivers()[0];
+                        // transceiver.direction = "sendonly";
+                        // transceiver.setCodecPreferences([
+                        //     {
+                        //         mimeType: "video/AV1",
+                        //         clockRate: 90000,
+                        //         sdpFmtpLine: "level-idx=5;profile=0;tier=0",
+                        //     },
+                        // ]);
 
-                        const params = transceiver.sender.getParameters();
-                        params.encodings[0].maxBitrate = 640000;
-                        transceiver.sender.setParameters(params);
+                        // const params = transceiver.sender.getParameters();
+                        // params.encodings[0].maxBitrate = 640000;
+                        // transceiver.sender.setParameters(params);
+                    })
+                    .catch((err) => {
+                        console.error(err);
                     });
             }
 
