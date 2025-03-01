@@ -9,15 +9,7 @@
         <script>
             const socket = new WebSocket("ws://127.0.0.1:8080/rover");
             const polite = true;
-            let pc = new RTCPeerConnection({
-                iceServers: [
-                    {
-                        urls: "turn:openrelay.metered.ca:80",
-                        username: "openrelayproject",
-                        credential: "openrelayproject",
-                    },
-                ],
-            });
+            let pc = new RTCPeerConnection({ iceServers: [] });
             let makingOffer = false;
 
             navigator.mediaDevices.enumerateDevices().then((devices) => {
