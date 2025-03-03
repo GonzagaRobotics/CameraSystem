@@ -56,3 +56,12 @@ If the video feed does not appear within a few seconds, there are any number of 
 The easiest way to fix an issue is to close all systems and restart them in the correct order.
 
 A USB webcam must be plugged in for the video feed to work. There is currently no way to choose which camera to use.
+
+If you're having trouble using the snap version of chromium-browser, consider using flatpak. Check to ensure flatpak Chromium is installed and this is the correct path before using.
+```bash
+./start.sh /var/lib/flatpak/app/org.chromium.Chromium/aarch64/stable/active/export/bin/org.chromium.Chromium
+```
+If you get the error `BROWSER: JSHandle@error` in your terminal output, you may have incorrectly set permissions on the camera file. Run the following line of code, replacing `/dev/video#` with the actual device file path of your camera (probably `/dev/video0`).
+```bash 
+sudo chmod 666 /dev/video#
+```
