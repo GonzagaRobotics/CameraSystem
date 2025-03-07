@@ -1,61 +1,54 @@
 # Camera System
 
-Version: 0.2.0
+Version: 0.3.0
 
 Code name: N/A
 
 ## Description
 
-Allows taking of pictures and video from the various cameras on the rover and sending them to wherever they need to go, such as the Control System.
-
-Currently has basic live video streaming capabilities to the Control System.
+Allows streaming video from webcams to the Control System over WebRTC.
 
 ## Dependencies
 
 -   Modern version of Chromium
 -   Node.js v22
--   NPM v11
+-   Typescript compiler (run `npm install -g typescript`)
 
 ## Building
 
-Each part has its own npm dependencies that need to be installed.
-
-```bash
-# Run this in the root directory of the repository
-(cd src/signaling/ && npm install && cd ../streamer/ && npm install)
-```
+Run `./build.sh` to install dependencies and build the system.
 
 ## Running
 
-**The order of this process is important.**
+**IMPORTANT**
 
-**Make sure port 8080 is open.**
+Always run the signaling server before a camera source. There can only be one signaling server running, while there can be multiple camera sources.
 
-Use the shell script to start the system. Make sure it has execute permissions.
+Use the `-s` flag to see the arguments for each launch file.
 
 ```bash
-# Run this in the root directory of the repository
-./start.sh $CHROMIUM_PATH$
+# Run just the signaling server
+ros2 launch launch/signaler.launch.py
 
-# Example using snap on linux
-./start.sh /snap/bin/chromium
+# Run a camera source
+# The chromium_path argument is not optional
+ros2 launch launch/source.launch.py chromium_path:=/path/to/chromium
+
+# Run both the signaling server and a camera source
+ros2 launch launch/combined.launch.py chromium_path:=/path/to/chromium
 ```
 
-## Usage
+## Usage with the Control System
 
 Once the signaling server and camera system are running, you can open the Control System and see the video feed from the rover.
 
 See its README for more information.
 
-**Always start the Control System last. You may restart the Control System and it will reconnect automatically.**
-
 ## Troubleshooting
 
 If the video feed does not appear within a few seconds, there are any number of issues that could be causing it. The console output of the Control System and signaling server are the best places to learn more about what is going wrong.
 
-The easiest way to fix an issue is to close all systems and restart them in the correct order.
-
-A USB webcam must be plugged in for the video feed to work. There is currently no way to choose which camera to use.
+The easiest way to fix an issue is to close all systems and restart them.
 
 If you're having trouble using the snap version of chromium-browser, consider using flatpak. Check to ensure flatpak Chromium is installed and this is the correct path before using.
 ```bash
